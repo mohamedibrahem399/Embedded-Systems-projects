@@ -1,0 +1,36 @@
+d0 button
+d1 led
+
+
+#include <io.h>
+#include <delay.h>
+
+#define led PORTC.5
+#define BUTTON PINC.0
+
+#define ON  1
+#define OFF 0
+
+
+void main(void)
+{
+ 
+    DDRC =0xf0;
+    PORTC=0x00;
+    PORTC.0=1;
+    
+while(1)
+    {   
+        
+        if( BUTTON == 1)
+        {
+            led = ON;
+	    delay_ms(100);
+ 	    led = OFF;
+	    delay_ms(100);
+       } 
+        else{
+            led = OFF;
+        }
+    } 
+}

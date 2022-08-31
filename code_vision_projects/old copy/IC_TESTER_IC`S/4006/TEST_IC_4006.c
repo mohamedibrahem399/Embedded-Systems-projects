@@ -1,0 +1,322 @@
+/*******************************************************
+This program was created by the
+CodeWizardAVR V3.14 Advanced
+Automatic Program Generator
+© Copyright 1998-2014 Pavel Haiduc, HP InfoTech s.r.l.
+http://www.hpinfotech.com
+
+Project : TEST_IC_CD4002
+Version : 
+Date    : 12/27/2021
+Author  : 
+Company : 
+Comments: 
+
+
+Chip type               : ATmega32A
+Program type            : Application
+AVR Core Clock frequency: 11.059200 MHz
+Memory model            : Small
+External RAM size       : 0
+Data Stack size         : 512
+*******************************************************/
+
+#include <mega32a.h>
+#include <delay.h>
+#include <stdio.h>
+
+ // PINS USED WITH THIS IC :- A0 - A4 & C5- C1
+ // C6 & C0 & A6 - A5 NOT USED
+
+ // NUMBER OF PINS = 14
+ //CONNECTION 
+                  //PINS IN THE CD4002 IC    // IN OR OUT
+ #define D1    PORTA.0   //PIN 1                    //  IN D1
+             //PORTA.1  //PIN 2                    //  NOT USED
+ #define CLK   PORTA.2  //PIN 3                    //  CLK
+ #define D2    PORTA.3  //PIN 4                    //  IN D2
+ #define D3    PORTA.4  //PIN 5                    //  IN D3
+ #define D4    PORTA.5  //PIN 6                    //  IN D4
+            // PORTA.6  //PIN 7                    //  GND
+ #define D4_P4 PINC.6   //PIN 8                    //  OUT D4+4
+ #define D4_P5 PINC.5   //PIN 9                    //  OUT D4+5
+ #define D3_P4 PINC.4   //PIN 10                   //  OUT D3+4
+ #define D2_P4 PINC.3   //PIN 11                   //  OUT D2+4
+ #define D2_P5 PINC.2   //PIN 12                   //  OUT D2+5
+ #define D1_P4 PINC.1   //PIN 13                   //  OUT D1+4
+            //PORTC.0   //PIN 14                   //  VCC       
+  
+ 
+ //INPUT  PORTS IN OUR IC :- C6-C1        //DDR  = 0 // PORT.0 =   1
+ //OUTPUT PORTS IN OUR IC :- A6-A1        //DDR  = 1 // PORT.1 =   0
+ 
+ #define ON  1
+ #define OFF 0
+ 
+ #define LED_GREEN PORTD.3
+ #define LED_RED PORTD.2
+ 
+ 
+ char test = 1;
+ char flag = 1;
+ char counter =0;
+ 
+ 
+void main(void)
+{
+    DDRA    = 0xff ; // 1111 1110
+    PORTA   = 0x00 ; // 0000 0001
+    
+    DDRC    = 0x00 ; // 1111 1101
+    PORTC   = 0xff ; // 0000 0010
+    
+    DDRD    = 0xff ;
+    PORTD   = 0x00 ;
+    PORTA.6=OFF;
+    CLK =   ON;
+    
+    /*uart config*/
+    UCSRA = (0<<RXC)|(0<<TXC)|(0<<UDRE)|(0<<FE)|(0<<DOR)|(0<<UPE)|(0<<U2X)|(0<<MPCM);
+    UCSRB = (0<<RXCIE)|(0<<TXCIE)|(0<<UDRIE)|(1<<RXEN)|(1<<TXEN)|(0<<UCSZ2)|(0<<RXB8)|(0<<TXB8);
+    UCSRC = (1<<URSEL)|(0<<UMSEL)|(0<<UPM1)|(0<<UPM0)|(0<<USBS)|(1<<UCSZ1)|(1<<UCSZ0)|(0<<UCPOL);
+    UBRRH=0x00;
+    UBRRL=0x33;    
+    
+    
+    
+    
+    
+while (1)
+      {
+      if  (flag == 1){
+
+        counter = 0;
+            while (counter < 4 ){
+                D1 = counter%2 && 0x01 ; // 1 1 1 1 
+                D2 = (!D1 & 0x01);       // 1 0 1 0
+                D3 = ON;                 // 1 1 1 1
+                D4 = OFF ;               // 0 0 0 0
+                
+                delay_ms(100);  
+                CLK = OFF ;
+                delay_ms(100);
+                CLK = ON;
+                delay_ms(100);
+                counter++;
+            }
+            counter = 0;
+            while (counter < 4 ){
+               
+               if(counter ==  0){
+                if( D1_P4 == 1 && D2_P4 ==0  && D3_P4 == 0 && D4_P4 == 0 ){
+                   LED_GREEN = ON;
+                   delay_ms(100);
+                   LED_GREEN = OFF;
+                   test = ON; 
+                }
+                else {
+                   LED_RED = ON;
+                   delay_ms(100);
+                   LED_RED = OFF;
+                   test = OFF;
+                   //break;
+                }
+               }
+               
+               else if (counter == 1){
+                 if( D1_P4 == 1  && D2_P4 == 0 && D3_P4 == 0 && D4_P4 == 0 ){
+                   LED_GREEN = ON;
+                   delay_ms(100);
+                   LED_GREEN = OFF;
+                   test = ON; 
+                }
+                else {
+                   LED_RED = ON;
+                   delay_ms(100);
+                   LED_RED = OFF;
+                   test = OFF;
+                   //break;
+                }
+               }
+               
+               else if (counter == 2){
+                 if( D1_P4 == 0  && D2_P4 == 0 && D3_P4 == 0 && D4_P4 == 0  ){
+                   LED_GREEN = ON;
+                   delay_ms(100);
+                   LED_GREEN = OFF;
+                   test = ON; 
+                }
+                else {
+                   LED_RED = ON;
+                   delay_ms(100);
+                   LED_RED = OFF;
+                   test = OFF;
+                   //break;
+                }
+               }
+               else if (counter == 3){
+                 if( D1_P4 == 1  && D2_P4 == 0 && D3_P4 == 0 && D4_P4 == 0 ){
+                   LED_GREEN = ON;
+                   delay_ms(100);
+                   LED_GREEN = OFF;
+                   test = ON; 
+                }
+                else {
+                   LED_RED = ON;
+                   delay_ms(100);
+                   LED_RED = OFF;
+                   test = OFF;
+                   //break;
+                }
+               }
+               delay_ms(100);  
+               CLK = OFF;
+               delay_ms(100);
+               CLK = ON;
+               counter ++;
+               delay_ms(100);  
+            }
+           flag = 0;
+
+      }
+      else if( flag == 0){
+      
+        if(test == 1){
+              LED_RED = OFF;
+              LED_GREEN = ON;
+              puts("4006");
+        }
+        else if(test == 0){
+            LED_GREEN = OFF;
+            LED_RED = ON;
+            puts("fuck");
+        }
+      }
+}
+}
+ 
+
+
+
+
+/*
+ 
+void main(void)
+{
+    DDRA    = 0xff ; // 1111 1110
+    PORTA   = 0x00 ; // 0000 0001
+    
+    DDRC    = 0x00 ; // 1111 1101
+    PORTC   = 0xff ; // 0000 0010
+    
+    DDRD    = 0xff ;
+    PORTD   = 0x00 ;
+    CLK =   ON;
+        
+while (1)
+      {
+      if  (flag == 1){
+
+        counter = 0;
+            while (counter < 4 ){
+                D1 = counter%2 && 0x01 ; // 0 1 0 1 
+                D2 = (!D1 & 0x01);       // 1 0 1 0
+                D3 = ON;                 // 1 1 1 1
+                D4 = OFF ;               // 0 0 0 0
+                
+                delay_ms(100);  
+                CLK = OFF ;
+                delay_ms(100);
+                CLK = ON;
+                delay_ms(100);
+                counter++;
+            }
+            counter = 0;
+            while (counter < 4 ){
+               
+               if(counter ==  0){
+                if( D1_P4 == 0 && D2_P4 == 1 && D3_P4 == 1 && D4_P4 == 0 ){
+                   LED_GREEN = ON;
+                   delay_ms(100);
+                   LED_GREEN = OFF;
+                   test = ON; 
+                }
+                else {
+                   LED_RED = ON;
+                   delay_ms(100);
+                   LED_RED = OFF;
+                   test = OFF;
+                   //break;
+                }
+               }
+               
+               else if (counter == 1){
+                 if( D1_P4 == 1  && D2_P4 == 0 && D3_P4 == 1 && D4_P4 == 0 ){
+                   LED_GREEN = ON;
+                   delay_ms(100);
+                   LED_GREEN = OFF;
+                   test = ON; 
+                }
+                else {
+                   LED_RED = ON;
+                   delay_ms(100);
+                   LED_RED = OFF;
+                   test = OFF;
+                   //break;
+                }
+               }
+               
+               else if (counter == 2){
+                 if( D1_P4 == 0 && D2_P4 == 1 && D3_P4 == 1 && D4_P4 == 0 ){
+                   LED_GREEN = ON;
+                   delay_ms(100);
+                   LED_GREEN = OFF;
+                   test = ON; 
+                }
+                else {
+                   LED_RED = ON;
+                   delay_ms(100);
+                   LED_RED = OFF;
+                   test = OFF;
+                   //break;
+                }
+               }
+               else if (counter == 3){
+                 if( D1_P4 == 1  && D2_P4 == 0 && D3_P4 == 1 && D4_P4 == 0){
+                   LED_GREEN = ON;
+                   delay_ms(100);
+                   LED_GREEN = OFF;
+                   test = ON; 
+                }
+                else {
+                   LED_RED = ON;
+                   delay_ms(100);
+                   LED_RED = OFF;
+                   test = OFF;
+                   //break;
+                }
+               }
+               delay_ms(100);  
+               CLK = OFF;
+               delay_ms(100);
+               CLK = ON;
+               counter ++;
+               delay_ms(100);  
+            }
+           flag = 0;
+
+      }
+      else if( flag == 0){
+      
+        if(test == 1){
+              LED_RED = OFF;
+              LED_GREEN = ON;
+        }
+        else if(test == 0){
+            LED_GREEN = OFF;
+            LED_RED = ON;
+        }
+      }
+}
+}
+ */

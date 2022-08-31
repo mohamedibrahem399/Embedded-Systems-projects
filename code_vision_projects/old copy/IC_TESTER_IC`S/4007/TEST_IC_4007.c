@@ -1,0 +1,116 @@
+/*******************************************************
+This program was created by the
+CodeWizardAVR V3.14 Advanced
+Automatic Program Generator
+© Copyright 1998-2014 Pavel Haiduc, HP InfoTech s.r.l.
+http://www.hpinfotech.com
+
+Project : TEST_IC_4007
+Version :
+Date    : 12/29/2021
+Author  :
+Company :
+Comments:
+
+
+Chip type               : ATmega32A
+Program type            : Application
+AVR Core Clock frequency: 11.059200 MHz
+Memory model            : Small
+External RAM size       : 0
+Data Stack size         : 512
+*******************************************************/
+
+#include <mega32a.h>
+#include <delay.h>
+
+ // PINS USED WITH THIS IC :- A0 - A4 & C5- C1
+ // C6 & C0 & A6 - A5 NOT USED
+
+ // NUMBER OF PINS = 14
+ //CONNECTION
+                  //PINS IN THE CD4007 IC    // IN OR OUT
+ #define DP2    PORTA.0  //PIN 1                    //  OUT DP2 = NOT G2
+ #define SP2    PORTA.1  //PIN 2                    //  IN SP2 = 1
+ #define G2     PORTA.2  //PIN 3                    //  IN G2
+ #define SN2    PORTA.3  //PIN 4                    //  IN SN2 = 1
+ #define DN2    PORTA.4  //PIN 5                    //  OUT DN2 = G2
+ #define G1     PORTA.5  //PIN 6                    //  IN G1
+            //  PORTA.6  //PIN 7                    //  GND
+ #define DN1    PINC.6   //PIN 8                    //  OUT DN1 // ALWAYS 0
+ #define SN3    PINC.5   //PIN 9                    //  IN SN3 = 0
+ #define G3     PINC.4   //PIN 10                   //  IN G3
+ #define SP3    PINC.3   //PIN 11                   //  IN SP3 = 1
+ #define DNP3   PINC.2   //PIN 12                   //  OUT DNP3 = NOT G3
+ #define DP1    PINC.1   //PIN 13                   //  OUT DP1 = NOT G1
+             //PORTC.0   //PIN 14                   //  VCC
+
+
+ //INPUT  PORTS IN OUR IC :- A0 , A4 , C6 ,C2 , C1        //DDR  = 0 // PORT.0 =   1
+ //OUTPUT PORTS IN OUR IC :-  A3-A1 , A5 , C5,C3          //DDR  = 1 // PORT.1 =   0
+                          //  DDRA 0010 1110 , PORTA 1101 0001
+                          //  DDRC 0011 1000 , PORTC 1100 0111
+ #define ON  1
+ #define OFF 0
+
+ #define LED_GREEN PORTD.2
+ #define LED_RED PORTD.3
+
+
+ char test = 1;
+ char flag = 1;
+ 
+
+void main(void)
+{
+    DDRA    = 0x2e ; // 0010 1110
+    PORTA   = 0xd1 ; // 1101 0001
+
+    DDRC    = 0x38 ; // 0011 1000
+    PORTC   = 0xc7 ; // 1100 0111
+
+    DDRD    = 0xff ;
+    PORTD   = 0x00 ;
+
+    SP2 = ON ;
+    SN2 = ON ;
+    SN3 = OFF;
+    SP3 = ON ;
+
+
+while (1)
+      {
+      if  (flag == 1){
+
+            G1 = ON;
+            G2 = ON;
+            G3 = ON;
+            if(DP2 == OFF && DN2 == ON && DN1 == OFF && DP1 == OFF && DNP3 == OFF){
+                   LED_GREEN = ON;
+                   delay_ms(50);
+                   LED_GREEN = OFF;
+                   test = ON;
+            }
+            else if (DP2 != OFF && DN2 != ON && DN1 != OFF && DP1 != OFF && DNP3 != OFF){
+                   LED_RED = ON;
+                   delay_ms(50);
+                   LED_RED = OFF;
+                   test = OFF;
+                   //break;
+            }
+           flag = 0;
+
+      }
+      else if( flag == 0){
+
+        if(test == 1){
+              LED_RED = OFF;
+              LED_GREEN = ON;
+        }
+        else if(test == 0){
+            LED_GREEN = OFF;
+            LED_RED = ON;
+        }
+      }
+}
+}

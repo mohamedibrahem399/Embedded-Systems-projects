@@ -1,0 +1,26 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+password                                                                          0x0260       6
+entered                                                                           0x0266       6
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+ctr_10                                                                            R5           1
+counter1                                                                          R4           1
+password_count                                                                    R7           1
+test                                                                              R6           1
+temp                                                                              R9           1
+i                                                                                 R8           1
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+EEPRom_Write                                                                      0x00062     21
+EEPROM_READ                                                                       0x00077     13
+main                                                                              0x00084    220

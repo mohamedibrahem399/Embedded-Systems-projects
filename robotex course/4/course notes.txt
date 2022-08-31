@@ -1,0 +1,27 @@
+while loop 
+while () {
+
+}
+-------------------------
+pysharm
+codewords
+---------------------
+array:-
+
+we can write it like 
+int pin[4]={0}
+
+4 is the number of indexs
+
+{0} is the value that we need to put it in the 4 indexs
+
+we can input all values in the same row
+
+int pin[4]={1,2,3,4}
+
+
+in array we have index and value 
+the index that we know is the number of the package that we can count 
+and the value is the value that we type in the package that we selected.
+
+----------------------------------------------------

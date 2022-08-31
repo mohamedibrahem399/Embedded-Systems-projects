@@ -1,0 +1,48 @@
+1- push button 
+2- RGb led 
+3- ultra sonic
+4-password
+------------------------------------------------
+value = digitalRight (pin number/name )
+------------
+
+RGB led :-
+........
+ types:-
+........
+1- common anode 
+2- common cathode 
+
+
+-------
+ code
+.......
+void loop () {
+Rgb (255,0,0);
+
+
+}
+
+
+void Rgb (int redvalue,int greenvalue,int bluevalue) {
+
+analogWrite (red,redvalue);
+
+}
+------------------------------------------------------
+ultrsonic:-
+..........
+codes:-
+
+clear (low) trigpin for 2  microsec
+
+high 10 microsec
+low 
+
+fn :- 
+pulseIn :- reads echoPin return sound waves in microsec 
+wite like :-
+
+pulseIn (echopin,HIGH);
+
+delayMicroseconds ();

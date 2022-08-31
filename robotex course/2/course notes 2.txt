@@ -1,0 +1,53 @@
+codes 
+functions :-
+---------------------
+if conditions 
+how to write 
+
+if ("the action that we need or we do ") {
+the reaction that will happpes 
+
+}
+
+
+actions like (i>=3 )
+we can define the variable in the if actions or in the beginning of the code 
+
+if we have some conditions (not one condition )
+we can do that 
+
+if () {
+}
+esle if () {
+}
+else {
+}
+---------------------------------------------------
+task 1 
+fading led 
+-----------------------------
+analog  from 0 to 1023
+pwm from 0 to 255 
+-----------------------
+and in coding is &&
+or in coding is ||
+-----------------------------------
+
+Serial.print("variable");
+Serial.println ("variable"); // write it in void loop
+
+
+Serial.begin(9600); // write it in void  setup 
+---------------------------
+coding 
+for code 
+
+for loop
+we can write it like 
+
+for ("start";"end or range";"step") {
+}
+--------------------------------
+solar follower 
+ldr = light sensor 
+bps = bit per second 

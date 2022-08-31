@@ -1,0 +1,68 @@
+ATMega(32)8p/a
+ic : SMD --- DIP 
+SMD :surface mount 
+DIP : dual in package 
+pwm : pulse width modulation
+digital pin max 40mA or 20mA
+analog to digital converter (ADC)
+(DAC)
+-----------------------------------
+motors : rpm -- torque -- volt 
+rpm 50 /133/176/200
+torque 8kg.cm
+volt 6-12 V 
+min 50 rpm
+fading in leds
+------------------------------------
+codeing:--
+ parts 
+1- definithins 
+library
+usage of variabeles
+ 
+2-void setup (){
+names/types of variables
+ex:- 
+int:integer ; long ; float ; 
+char :character
+double+int-or any other one
+pinMode (name,INPUT-OUTPUT)
+
+in the end of any line must put fken ;
+
+}
+
+3-loop :-  
+void loop () {
+my main code 
+digitalRead (name,LOW-HIGH )
+digitalWrite ( same )
+analogWrite ( same )
+analogRead ( same )
+delay +number with msec
+---
+forward ()
+backward ()
+
+
+}
+
+4-call back
+code organizer 
+
+void forward () {
+}
+
+void backward () {
+}
+
+
+
+---------------------
+extintions :-
+.cpp
+.h 
+.c
+---------------------
+
+
